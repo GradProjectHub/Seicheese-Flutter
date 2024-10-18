@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seicheese/screens/login_screen.dart';
+import 'package:seicheese/screens/Signin_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginScreen(), // constを追加
+      home: const SigninScreen(), // constを追加
     );
   }
 }

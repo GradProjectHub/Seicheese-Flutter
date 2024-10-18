@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seicheese/screens/Signin_screen.dart';
+import 'package:seicheese/screens/signin_screen.dart';
 
 void main() {
   runApp(const MyApp());

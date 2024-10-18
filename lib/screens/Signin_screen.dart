@@ -12,7 +12,7 @@ class SigninScreenState extends State<SigninScreen> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: Text('こんにちは World!'),
+        child: Text('こんにちは 世界!'),
       ),
     );
   }

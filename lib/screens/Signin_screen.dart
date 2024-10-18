@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:seicheese/screens/main_screen.dart';
 
-class SigninScreen extends StatefulWidget {
-  const SigninScreen({super.key});
-
-  @override
-  SigninScreenState createState() => SigninScreenState(); // クラス名から _ を削除して公開
-}
-
-class SigninScreenState extends State<SigninScreen> {
+class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('サインイン'),
+      ),
       body: Center(
-        child: Text('こんにちは 世界!'),
+        child: ElevatedButton(
+          onPressed: () {
+            // ボタンが押されたときに MainScreen に遷移
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MainScreen()),
+            );
+          },
+          child: const Text('サインイン'),
+        ),
       ),
     );
   }

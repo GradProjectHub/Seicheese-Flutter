@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:seicheese/screens/signin_screen.dart';
+import 'package:seicheese/screens/signin_screen.dart'; // SignInScreenをインポート
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key}); // keyを追加
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My App',
+      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SigninScreen(), // constを追加
+      home: SignInScreen(), // サインイン画面を最初の画面に設定
     );
   }
 }

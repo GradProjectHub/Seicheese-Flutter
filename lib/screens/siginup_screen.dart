@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'main_screen.dart'; // MainScreenをインポート
-import 'siginup_screen.dart';
+import 'Signin_screen.dart';
 
-class SignInScreen extends StatelessWidget {
+class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +39,7 @@ class SignInScreen extends StatelessWidget {
                   'assets/icons/google-icon.png', // Googleアイコン
                   height: 24,
                 ),
-                label: const Text('Sign In with Google'),
+                label: const Text('Sign Up with Google'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white, // ボタンの背景色
                   foregroundColor: Colors.black, // ボタンの文字色
@@ -59,7 +59,7 @@ class SignInScreen extends StatelessWidget {
                   );
                 },
                 icon: const Icon(Icons.apple, size: 24),
-                label: const Text('Sign In with Apple'),
+                label: const Text('Sign Up with Apple'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black, // ボタンの背景色
                   foregroundColor: Colors.white, // ボタンの文字色
@@ -75,14 +75,14 @@ class SignInScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SignUpScreen()),
+                    MaterialPageRoute(builder: (context) => SignInScreen()),
                   );
                 },
-                label: const Text('新規登録'),
+                label: const Text('戻る'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green, // ボタンの背景色
+                  backgroundColor: Colors.grey, // ボタンの背景色
                   foregroundColor: Colors.white, // ボタンの文字色
-                  minimumSize: const Size(double.infinity, 50), // 幅を画面いっぱいに
+                  minimumSize: const Size(150, 50), // 幅を画面いっぱいに
                   elevation: 10, // ボタンに影を追加
                   shadowColor: Colors.black.withOpacity(0.5), // 影の色
                 ),

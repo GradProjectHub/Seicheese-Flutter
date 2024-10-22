@@ -82,7 +82,7 @@ class SignInScreen extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green, // ボタンの背景色
                   foregroundColor: Colors.white, // ボタンの文字色
-                  minimumSize: const Size(double.infinity, 50), // 幅を画面いっぱいに
+                  minimumSize: const Size(300, 50), // 幅を画面いっぱいに
                   elevation: 10, // ボタンに影を追加
                   shadowColor: Colors.black.withOpacity(0.5), // 影の色
                 ),

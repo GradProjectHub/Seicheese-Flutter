@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seicheese/compoents/footer.dart';
 
 void main() {
   runApp(MyApp());
@@ -106,6 +107,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
+      bottomNavigationBar: Footer(), // フッターを表示
     );
   }
 }

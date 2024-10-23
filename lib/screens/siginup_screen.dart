@@ -21,12 +21,17 @@ class SignUpScreen extends StatelessWidget {
             children: [
               // ロゴ部分
               Padding(
-                padding: const EdgeInsets.only(bottom: 50.0),
+                padding: const EdgeInsets.only(top: 20.0),
                 child: Image.asset(
                   'assets/icons/logo.jpg', // ロゴ画像を表示
                   height: 230,
                 ),
               ),
+              const Text('新規作成',
+                    style: TextStyle(
+                      fontSize: 25,
+                    ),
+                  ),
               // Googleサインインボタン
               ElevatedButton.icon(
                 onPressed: () {

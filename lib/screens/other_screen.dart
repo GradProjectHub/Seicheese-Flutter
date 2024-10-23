@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seicheese/compoents/footer.dart';
 
 class OtherScreen extends StatelessWidget {
   @override
@@ -10,6 +11,7 @@ class OtherScreen extends StatelessWidget {
       body: const Center(
         child: Text('テスト画面へようこそ！'),
       ),
+      bottomNavigationBar: Footer(), // フッターを表示
     );
   }
 }

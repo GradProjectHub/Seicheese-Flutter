@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'main_screen.dart'; // MainScreenをインポート
 import 'signin_screen.dart';
+import 'other_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
   @override
@@ -37,7 +38,7 @@ class SignUpScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MainScreen()),
+                    MaterialPageRoute(builder: (context) => OtherScreen()),
                   );
                 },
                 icon: Image.asset(
@@ -60,7 +61,7 @@ class SignUpScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MainScreen()),
+                    MaterialPageRoute(builder: (context) => OtherScreen()),
                   );
                 },
                 icon: const Icon(Icons.apple, size: 24),

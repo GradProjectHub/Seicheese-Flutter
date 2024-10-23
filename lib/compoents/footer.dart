@@ -8,16 +8,16 @@ class Footer extends StatelessWidget {
     return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home), // ホーム画面
-          label: 'Home',
+          icon: Icon(Icons.book), // ホーム画面
+          label: 'スタンプカード',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.search), // 検索画面
-          label: 'Search',
+          icon: Icon(Icons.map), // 検索画面
+          label: 'マップ',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings), // 設定画面
-          label: 'Settings',
+          icon: Icon(Icons.tab), // 設定画面
+          label: 'メニュー',
         ),
       ],
       onTap: (int index) {
@@ -25,17 +25,17 @@ class Footer extends StatelessWidget {
         if (index == 0) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => MainScreen()),
+            MaterialPageRoute(builder: (context) => OtherScreen()),
           );
         } else if (index == 1) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => OtherScreen()),
+            MaterialPageRoute(builder: (context) => MainScreen()),
           );
         } else if (index == 2) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => SettingsScreen()),
+            MaterialPageRoute(builder: (context) => OtherScreen()),
           );
         }
       },

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart'; 
 import 'package:seicheese/screens/main_screen.dart';
 import 'package:seicheese/screens/other_screen.dart'; // OtherScreenをインポート
+import 'package:seicheese/screens/stamp_screen.dart'; // StampScreenをインポート
+
 
 class Footer extends StatelessWidget {
   @override
@@ -27,7 +29,7 @@ class Footer extends StatelessWidget {
           if (index == 0) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => OtherScreen()),
+              MaterialPageRoute(builder: (context) => StampScreen()),
             );
           } else if (index == 1) {
             Navigator.pushReplacement(

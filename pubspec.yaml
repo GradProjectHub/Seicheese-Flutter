@@ -23,3 +23,7 @@ flutter:
   assets:
    - assets/icons/google-icon.png
    - assets/icons/logo.jpg
+   - assets/stamp/stamp_1.png
+
+
+

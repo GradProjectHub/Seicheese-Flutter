@@ -38,7 +38,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF3F2F8),
-// ヘッダーを表示
+      // ヘッダーを表示
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(100), // ヘッダーの高さを100に設定
         child: Header(), // Headerをここに追加

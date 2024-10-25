@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seicheese/screens/other_screen.dart';
 import 'package:seicheese/screens/signin_screen.dart'; // SignInScreenをインポート
 
 void main() {

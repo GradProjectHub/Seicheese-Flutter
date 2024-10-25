@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seicheese/screens/work_list_screen.dart'; // 作品一覧画面をインポート
 import 'package:seicheese/screens/pin_list_screen.dart'; // ピン一覧画面をインポート
 import 'package:seicheese/compoents/header.dart';
+import 'package:seicheese/compoents/footer.dart';
 
 class MenuScreen extends StatefulWidget {
   @override
@@ -177,6 +178,7 @@ class MenuScreenState extends State<MenuScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: Footer(),
     );
   }
 }

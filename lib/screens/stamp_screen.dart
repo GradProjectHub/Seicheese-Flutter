@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seicheese/compoents/footer.dart';
+import 'package:seicheese/compoents/header.dart';
+
 
 class StampScreen extends StatefulWidget {
   const StampScreen({super.key});
@@ -47,10 +49,10 @@ class StampScreenState extends State<StampScreen> {
     final displayedStamps = getDisplayedStamps();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('スタンプカード'),
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100), // ヘッダーの高さを100に設定
+        child: Header(), // Headerをここに追加
+      ),      
       body: Container(
         color: const Color(0xFFFFF070),
         child: Column(

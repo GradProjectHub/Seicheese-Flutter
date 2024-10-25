@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seicheese/compoents/footer.dart';
+import 'package:seicheese/compoents/header.dart';
 
 void main() {
   runApp(MyApp());
@@ -37,9 +38,11 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF3F2F8),
-      appBar: AppBar(
-        title: Text('アプリタイトル'), // ヘッダーのタイトル
-      ),
+// ヘッダーを表示
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100), // ヘッダーの高さを100に設定
+        child: Header(), // Headerをここに追加
+      ),      
       body: Stack(
         children: [
           // 登録ボタン（フッターの上）

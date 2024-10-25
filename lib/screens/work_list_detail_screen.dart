@@ -1,43 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:seicheese/compoents/header.dart';
 import 'package:seicheese/compoents/footer.dart';
-import 'work_list_detail_screen.dart';
 
-class WorkListScreen extends StatelessWidget {
+class WorkListDetailScreen extends StatelessWidget {
   final List<Map<String, dynamic>> items = [
-    {"id": "1", "title": "仮面ライダーシリーズ", "count": 5},
-    {"id": "2", "title": "ガンダムシリーズ", "count": 6},
-    {"id": "3", "title": "サザエさん", "count": 2},
-    {"id": "4", "title": "ドラえもん", "count": 40},
-    {"id": "5", "title": "NARUTO", "count": 2},
-    {"id": "6", "title": "のだめカンタービレ", "count": 40},
+    {"id": "1", "title": "機動戦士ガンダム", "count": 5},
+    {"id": "2", "title": "機動戦士Zガンダム", "count": 6},
+    {"id": "3", "title": "機動戦士ガンダムZZ", "count": 2},
+    {"id": "4", "title": "機動戦士ガンダム逆襲のシャア", "count": 40},
+    {"id": "5", "title": "機動戦士ガンダムユニコーン", "count": 2},
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF3F3F3),
-      // ヘッダーを表示
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100), // ヘッダーの高さを100に設定
-        child: Header(), // Headerをここに追加
-      ),   
+      backgroundColor: Color(0xFFF3F3F3),
+      appBar: AppBar(
+        title: const Text('ガンダムシリーズ'),
+        backgroundColor: Colors.deepPurple,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context); // 戻るボタン
+            },
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 作品一覧のタイトル
+            // タイトル部分
             Container(
-              width: MediaQuery.of(context).size.width * 0.4,
+              width: MediaQuery.of(context).size.width * 0.6,
               decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(color: Colors.black, width: 2),
                 ),
               ),
               margin: const EdgeInsets.only(bottom: 10),
+              
               child: const Text(
-                '作品一覧',
+                'ガンダムシリーズ',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -58,11 +64,22 @@ class WorkListScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      // 詳細画面に遷移
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => WorkListDetailScreen()),
+                      // クリック時のアラート
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('${items[index]["title"]}がクリックされました'),
+                            actions: [
+                              TextButton(
+                                child: const Text('OK'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
                       );
                     },
                     child: Container(
@@ -79,9 +96,9 @@ class WorkListScreen extends StatelessWidget {
                               color: Colors.black,
                             ),
                           ),
-                          Text(
-                            '登録数 ${items[index]["count"]}件',
-                            style: const TextStyle(
+                          const Text(
+                            '>>',
+                            style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey,
                             ),
@@ -96,7 +113,6 @@ class WorkListScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: Footer(), // フッターを表示
     );
   }
 }

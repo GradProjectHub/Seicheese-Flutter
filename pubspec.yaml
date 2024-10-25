@@ -24,6 +24,8 @@ flutter:
    - assets/icons/google-icon.png
    - assets/icons/logo.jpg
    - assets/stamp/stamp_1.png
-
-
-
+   - assets/pin/pin_1.png
+   - assets/pin/pin_2.png
+   - assets/pin/pin_3.png
+   - assets/pin/pin_4.png
+   - assets/pin/pin_5.png

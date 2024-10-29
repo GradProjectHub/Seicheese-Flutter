@@ -27,6 +27,12 @@ class WorkListScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context); // 戻るボタン
+                },
+              ),
             // 作品一覧のタイトル
             Container(
               width: MediaQuery.of(context).size.width * 0.4,

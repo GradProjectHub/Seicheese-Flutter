@@ -14,24 +14,23 @@ class WorkListDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF3F3F3),
-      appBar: AppBar(
-        title: const Text('ガンダムシリーズ'),
-        backgroundColor: Colors.deepPurple,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context); // 戻るボタン
-            },
-          ),
-        ],
+      backgroundColor: const Color(0xFFF3F3F3),
+      // ヘッダーを表示
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(100), // ヘッダーの高さを100に設定
+        child: Header(), // Headerをここに追加
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+              IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context); // 戻るボタン
+                },
+              ),
             // タイトル部分
             Container(
               width: MediaQuery.of(context).size.width * 0.6,
@@ -113,6 +112,7 @@ class WorkListDetailScreen extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: Footer(), // フッターを表示
     );
   }
 }

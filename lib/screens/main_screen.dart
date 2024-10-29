@@ -25,12 +25,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  bool showCancel = false;
+  bool showPointer = false;
 
   // 登録ボタンの切り替え
-  void toggleButton() {
+  void togglePointer() {
     setState(() {
-      showCancel = !showCancel;
+      showPointer = !showPointer;
     });
   }
 
@@ -38,39 +38,85 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF3F2F8),
-      // ヘッダーを表示
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100), // ヘッダーの高さを100に設定
-        child: Header(), // Headerをここに追加
-      ),      
+        preferredSize: Size.fromHeight(100),
+        child: Header(),
+      ),
       body: Stack(
         children: [
-          // 登録ボタン（フッターの上）
-          Positioned(
-            bottom: 0, // フッターの上に配置
-            left: 20,
-            child: ElevatedButton(
-              onPressed: toggleButton,
-              child: Text(
-                showCancel ? 'キャンセル' : '登録',
-                style: TextStyle(
-                  fontSize: 20, // 文字を大きく
-                  color: Colors.white, // 文字色を白に設定
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF0077E6), // 登録ボタンの色
-                minimumSize: Size(95, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8), // 角を少し丸く
-                ),
-                elevation: 5, // 影を付けて見やすく
+          // 中央のポインターと登録・キャンセルボタン
+          if (showPointer)
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.add,
+                    size: 50,
+                    color: Colors.blue,
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ElevatedButton(
+                        onPressed: togglePointer,
+                        child: Text(
+                          '登録',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF0077E6),
+                          minimumSize: Size(120, 50), // 同じサイズに設定
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      ElevatedButton(
+                        onPressed: togglePointer,
+                        child: Text(
+                          'キャンセル',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF34495E),
+                          minimumSize: Size(120, 50), // 同じサイズに設定
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ),
-          // チェックインボタン（フッターの上）
+          // 左下の登録ボタン（ポインター表示時に非表示）
+          if (!showPointer)
+            Positioned(
+              bottom: 0,
+              left: 20,
+              child: ElevatedButton(
+                onPressed: togglePointer,
+                child: Text(
+                  '登録',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF0077E6),
+                  minimumSize: Size(95, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  elevation: 5,
+                ),
+              ),
+            ),
+          // チェックインボタン
           Positioned(
-            bottom: 0, // フッターの直上に配置
+            bottom: 0,
             right: 20,
             child: ElevatedButton(
               onPressed: () {
@@ -78,26 +124,23 @@ class _MainScreenState extends State<MainScreen> {
               },
               child: Text(
                 'チェックイン',
-                style: TextStyle(
-                  fontSize: 20, // 文字を大きく
-                  color: Colors.white, // 文字色を白に設定
-                ),
+                style: TextStyle(fontSize: 20, color: Colors.white),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF005DB4), // チェックインボタンの色
+                backgroundColor: Color(0xFF005DB4),
                 minimumSize: Size(120, 90),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                   ),
                 ),
-                elevation: 5, // 影を付けて見やすく
+                elevation: 5,
               ),
             ),
           ),
         ],
       ),
-      bottomNavigationBar: Footer(), // フッターを表示
+      bottomNavigationBar: Footer(),
     );
   }
 }

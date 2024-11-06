@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:seicheese/compoents/footer.dart';
 import 'package:seicheese/compoents/header.dart';
+import 'package:seicheese/compoents/footer.dart';
 
 
 class StampScreen extends StatefulWidget {
@@ -17,9 +17,9 @@ class StampScreenState extends State<StampScreen> {
 
   // スタンプの画像パスの配列
   final List<String> stampImages = [
-    'assets/stamp/stamp_1.png',
-    'assets/stamp/stamp_1.png',
-    'assets/stamp/stamp_1.png',
+    'assets/stamp/stamp.png',
+    'assets/stamp/stamp.png',
+    'assets/stamp/stamp.png',
     // ...他の画像パスを追加
   ];
 
@@ -50,7 +50,7 @@ class StampScreenState extends State<StampScreen> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100), // ヘッダーの高さを100に設定
+        preferredSize: const Size.fromHeight(100), // ヘッダーの高さを100に設定
         child: Header(), // Headerをここに追加
       ),      
       body: Container(
@@ -143,10 +143,10 @@ class StampScreenState extends State<StampScreen> {
                 ),
               ),
             ),
-            Footer(), // constを削除
           ],
         ),
       ),
+      bottomNavigationBar: const Footer(currentIndex: 0), 
     );
   }
 }

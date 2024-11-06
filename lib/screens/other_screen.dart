@@ -8,13 +8,13 @@ class OtherScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100), // ヘッダーの高さを100に設定
+        preferredSize: const Size.fromHeight(100), // ヘッダーの高さを100に設定
         child: Header(), // Headerをここに追加
       ),      
       body: const Center(
         child: Text('テスト画面へようこそ！'),
       ),
-      bottomNavigationBar: Footer(), // フッターを表示
+      bottomNavigationBar: const Footer(currentIndex: 1),  // フッターを表示
     );
   }
 }

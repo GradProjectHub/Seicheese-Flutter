@@ -12,6 +12,9 @@ dependencies:
 
   google_fonts: ^2.3.3
 
+  google_maps_flutter: ^2.9.0
+  geolocator: ^13.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -23,7 +26,7 @@ flutter:
   assets:
    - assets/icons/google-icon.png
    - assets/icons/logo.jpg
-   - assets/stamp/stamp_1.png
+   - assets/stamp/stamp.png
    - assets/pin/pin_1.png
    - assets/pin/pin_2.png
    - assets/pin/pin_3.png

@@ -178,7 +178,7 @@ class MenuScreenState extends State<MenuScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: Footer(),
+      bottomNavigationBar: const Footer(currentIndex: 2),
     );
   }
 }

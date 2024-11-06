@@ -1,26 +1,32 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:seicheese/screens/main_screen.dart';
-import 'package:seicheese/screens/menu_screen.dart'; // OtherScreenをインポート
-import 'package:seicheese/screens/stamp_screen.dart'; // StampScreenをインポート
-
+import 'package:seicheese/screens/menu_screen.dart';
+import 'package:seicheese/screens/stamp_screen.dart';
 
 class Footer extends StatelessWidget {
+  final int currentIndex; // 現在のインデックスを受け取る
+
+  const Footer({Key? key, required this.currentIndex}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100, // フッターの高さを70に設定
+      height: 100, // フッターの高さを100に設定
       child: BottomNavigationBar(
+        currentIndex: currentIndex, // 現在のインデックスを設定
+        selectedItemColor: Colors.blue, // 選択されたアイテムの色
+        unselectedItemColor: Colors.grey, // 選択されていないアイテムの色
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.book), // ホーム画面
+            icon: Icon(Icons.book),
             label: 'スタンプカード',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.map), // マップ画面
+            icon: Icon(Icons.map),
             label: 'マップ',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.tab), // メニュー画面
+            icon: Icon(Icons.tab),
             label: 'メニュー',
           ),
         ],
@@ -29,7 +35,7 @@ class Footer extends StatelessWidget {
           if (index == 0) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => StampScreen()),
+              MaterialPageRoute(builder: (context) => const StampScreen()),
             );
           } else if (index == 1) {
             Navigator.pushReplacement(

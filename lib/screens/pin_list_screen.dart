@@ -148,7 +148,7 @@ class _PinListScreenState extends State<PinListScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: Footer(), // フッターを表示
+      bottomNavigationBar: const Footer(currentIndex: 2), // フッターを表示
     );
   }
 }

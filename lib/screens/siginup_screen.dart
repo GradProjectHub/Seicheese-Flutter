@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'main_screen.dart'; // MainScreenをインポート
 import 'signin_screen.dart';
@@ -39,10 +38,6 @@ class SignUpScreen extends StatelessWidget {
               // Googleサインインボタン
               ElevatedButton.icon(
                 onPressed: () async {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => MainScreen()),
-                  // );
                   // Googleサインイン
                   GoogleSignInAccount? siginAccount =
                       await GoogleSignIn().signIn();

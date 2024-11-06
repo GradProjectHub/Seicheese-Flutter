@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'main_screen.dart'; // MainScreenをインポート
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'siginup_screen.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -29,11 +31,31 @@ class SignInScreen extends StatelessWidget {
               ),
               // Googleサインインボタン
               ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainScreen()),
+                onPressed: () async {
+                  // Googleサインイン
+                  GoogleSignInAccount? siginAccount =
+                      await GoogleSignIn().signIn();
+                  if (siginAccount == null) return;
+                  GoogleSignInAuthentication auth =
+                      await siginAccount.authentication;
+
+                  final OAuthCredential credential =
+                      GoogleAuthProvider.credential(
+                    idToken: auth.idToken,
+                    accessToken: auth.accessToken,
                   );
+
+                  //認証情報をFirebaseに登録
+                  User? user = (await FirebaseAuth.instance
+                          .signInWithCredential(credential))
+                      .user;
+                  // ログイン成功時はメイン画面に遷移
+                  if (user != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainScreen()),
+                    );
+                  }
                 },
                 icon: Image.asset(
                   'assets/icons/google-icon.png', // Googleアイコン
@@ -49,7 +71,7 @@ class SignInScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20), // ボタン間のスペース
-              
+
               // Appleサインインボタン
               ElevatedButton.icon(
                 onPressed: () {

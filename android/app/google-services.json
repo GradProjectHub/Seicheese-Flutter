@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "513503915670",
+    "project_id": "seichesse-202406",
+    "storage_bucket": "seichesse-202406.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513503915670:android:ceba31b28453486c155cb7",
+        "android_client_info": {
+          "package_name": "com.seicheese.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513503915670-69v0lh10vgv3g81s9fhqao99oqb5sesd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.seicheese.com",
+            "certificate_hash": "c158887530a06d1d98f26849422b039a23019de5"
+          }
+        },
+        {
+          "client_id": "513503915670-pum8tgce5h0q75vptgciruc52g4bk6qt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHVXQcZsVe-amcrtwRmzRX7MUhvLvWYrs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513503915670-pum8tgce5h0q75vptgciruc52g4bk6qt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "513503915670-peqdulrvih4dcvhunqoopln7a6vg0upv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.seicheese"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

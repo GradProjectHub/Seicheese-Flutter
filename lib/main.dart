@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seicheese/screens/other_screen.dart';
 import 'package:seicheese/screens/signin_screen.dart'; // SignInScreenをインポート
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';

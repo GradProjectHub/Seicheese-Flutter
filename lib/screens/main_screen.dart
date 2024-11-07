@@ -31,7 +31,7 @@ class MainScreenState extends State<MainScreen> {
   bool _isLocationLoaded = false; // 位置情報がロードされるまで待機
   late GoogleMapController mapController;
   LatLng _currentPosition = const LatLng(0, 0);
-  Set<Marker> _markers = {}; // マーカーのセット
+  final Set<Marker> _markers = {}; // マーカーのセット
 
   @override
   void initState() {

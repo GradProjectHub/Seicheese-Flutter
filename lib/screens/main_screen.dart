@@ -215,6 +215,63 @@ class MainScreenState extends State<MainScreen> {
                 ),
               ),
             ),
+
+            Positioned(
+              bottom: 110,
+              right: 3,
+              child: GestureDetector(
+                onTap: () {//押したら作動
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('ポイント情報'),
+                        content: const Text('現在の所有ポイントは150ptです。'),
+                        actions: [
+                          TextButton(
+                            child: const Text('OK'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Container(
+                  width: 145,
+                  padding: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.black, width: 1),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 5,
+                        spreadRadius: 2,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: const Column(
+                    children: [
+                      Text(
+                        '所有ポイント',
+                        style: TextStyle(fontSize: 18, color: Colors.black),
+                      ),
+                      SizedBox(height: 3),
+                      Text(
+                        '150pt', // ここでポイント数を設定
+                        style: TextStyle(fontSize: 25, color: Colors.blue, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            
           // チェックインボタン
           Positioned(
             bottom: 0,

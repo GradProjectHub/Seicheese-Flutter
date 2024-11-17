@@ -18,6 +18,12 @@ dependencies:
   google_maps_flutter: ^2.9.0
   geolocator: ^13.0.1
 
+  flutter_dotenv: ^5.0.2
+
+  jwt_decoder: ^2.0.1
+  
+  http: ^1.2.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -27,6 +33,7 @@ flutter:
   uses-material-design: true
 
   assets:
+   - .env
    - assets/icons/google-icon.png
    - assets/icons/logo.jpg
    - assets/stamp/stamp.png

@@ -45,3 +45,6 @@ app.*.map.json
 # Pubspec.lock has versions of dependencies
 pubspec.lock
 pubspec.lock
+
+# Environment variables
+.env

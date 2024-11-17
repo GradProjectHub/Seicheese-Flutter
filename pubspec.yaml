@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  google_fonts: ^2.3.3
+  google_fonts: ^6.2.1
   google_sign_in: ^6.2.2
 
   google_maps_flutter: ^2.9.0

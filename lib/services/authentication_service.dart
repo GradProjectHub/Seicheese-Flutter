@@ -88,11 +88,17 @@ class AuthenticationService {
         body: jsonEncode({'version': appVersion}),
       );
 
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
       if (response.statusCode == 409) {
-        // ユーザーが既に存在する場合
         throw Exception('このアカウントは既に登録されています。サインイン画面からサインインしてください。');
-      } else if (response.statusCode != 200) {
-        throw Exception('サインアップに失敗しました: ${response.body}');
+      } else if (response.statusCode == 201) {
+        // 成功時の処理
+        final responseData = utf8.decode(response.bodyBytes);
+        print('Response body (decoded): $responseData');
+      } else {
+        throw Exception('サインアップに失敗しました: ${utf8.decode(response.bodyBytes)}');
       }
     } catch (e) {
       await signOut();

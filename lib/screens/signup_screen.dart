@@ -1,10 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'main_screen.dart'; // MainScreenをインポート
 import 'signin_screen.dart';
+import '../services/authentication_service.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget { // StatefulWidgetを継承
+  @override
+  _SignUpScreenState createState() => _SignUpScreenState(); // _SignUpScreenStateを返す
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  final AuthenticationService _authService = AuthenticationService();
+  bool _isSigningUp = false; // サインアップ中かどうかのフラグ
+
+  Future<void> _handleSignUp() async {
+    if (_isSigningUp) return;
+
+    setState(() {
+        _isSigningUp = true;
+    });
+
+    try {
+        await _authService.signUpWithGoogle();
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MainScreen()),
+        );
+    } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text(e.toString()),
+                action: e.toString().contains('既に登録されています') 
+                    ? SnackBarAction(
+                        label: 'サインイン画面へ',
+                        onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => SignInScreen()),
+                            );
+                        },
+                    )
+                    : null,
+            ),
+        );
+    } finally {
+        setState(() {
+            _isSigningUp = false;
+        });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,44 +75,34 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               const Text(
-                '新規作成',
+                '新規登録',
                 style: TextStyle(
                   fontSize: 25,
                 ),
               ),
+              const SizedBox(height: 20), // テキスト間のスペース
+
               // Googleサインインボタン
               ElevatedButton.icon(
-                onPressed: () async {
-                  // Googleサインイン
-                  GoogleSignInAccount? siginAccount =
-                      await GoogleSignIn().signIn();
-                  if (siginAccount == null) return;
-                  GoogleSignInAuthentication auth =
-                      await siginAccount.authentication;
-
-                  final OAuthCredential credential =
-                      GoogleAuthProvider.credential(
-                    idToken: auth.idToken,
-                    accessToken: auth.accessToken,
-                  );
-
-                  //認証情報をFirebaseに登録
-                  User? user = (await FirebaseAuth.instance
-                          .signInWithCredential(credential))
-                      .user;
-                  // ログイン成功時はメイン画面に遷移
-                  if (user != null) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MainScreen()),
-                    );
-                  }
-                },
-                icon: Image.asset(
+                onPressed: _isSigningUp
+                    ? null
+                    : () async {
+                        await _handleSignUp();
+                      },
+                icon: _isSigningUp // サインイン中はローディング表示
+                    ? SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(
+                          color: Colors.black,
+                          strokeWidth: 2,
+                        ),
+                      )
+                      : Image.asset(
                   'assets/icons/google-icon.png', // Googleアイコン
                   height: 24,
                 ),
-                label: const Text('Sign Up with Google'),
+                label: Text(_isSigningUp ? '処理中...' : 'Sign Up with Google'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white, // ボタンの背景色
                   foregroundColor: Colors.black, // ボタンの文字色
@@ -106,7 +141,7 @@ class SignUpScreen extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => SignInScreen()),
                   );
                 },
-                label: const Text('戻る'),
+                label: const Text('登録済みの方はこちら'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.grey, // ボタンの背景色
                   foregroundColor: Colors.white, // ボタンの文字色
@@ -116,6 +151,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 30), // ボタン間のスペース
+              
             ],
           ),
         ),

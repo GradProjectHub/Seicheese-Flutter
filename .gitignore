@@ -48,3 +48,4 @@ pubspec.lock
 
 # Environment variables
 .env
+.env.bak

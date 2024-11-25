@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "513503915670-rj10cs3dvf3k3ga2r3lk276ukpfldjmi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.seicheese.com",
+            "certificate_hash": "8a77c12baaa21a73c9efb921568c865ad7e58071"
+          }
+        },
+        {
           "client_id": "513503915670-pum8tgce5h0q75vptgciruc52g4bk6qt.apps.googleusercontent.com",
           "client_type": 3
         }

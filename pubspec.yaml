@@ -12,11 +12,20 @@ dependencies:
   flutter:
     sdk: flutter
 
-  google_fonts: ^2.3.3
+  google_fonts: ^6.2.1
   google_sign_in: ^6.2.2
 
   google_maps_flutter: ^2.9.0
   geolocator: ^13.0.1
+
+  flutter_dotenv: ^5.0.2
+
+  jwt_decoder: ^2.0.1
+  
+  http: ^1.2.2
+
+  package_info_plus: ^8.1.1
+  logging: ^1.3.0
 
 dev_dependencies:
   flutter_test:
@@ -27,6 +36,7 @@ flutter:
   uses-material-design: true
 
   assets:
+   - .env
    - assets/icons/google-icon.png
    - assets/icons/logo.jpg
    - assets/stamp/stamp.png

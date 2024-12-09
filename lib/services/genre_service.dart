@@ -4,7 +4,8 @@ import '../models/genre.dart';
 
 class GenreService {
   final String authToken;
-  final String baseUrl = 'http://192.168.1.23:1300';
+  final host = dotenv.env['LOCAL_IP_ADDR'];
+  final String baseUrl = 'http://$host:1300';
 
   GenreService({required this.authToken});
 

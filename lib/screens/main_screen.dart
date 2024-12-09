@@ -3,6 +3,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:seicheese/compoents/footer.dart';
 import 'package:seicheese/compoents/header.dart';
+import 'package:seicheese/models/seichi.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:seicheese/screens/signin_screen.dart';
+import 'package:seicheese/services/seichi_service.dart' as services;
+import 'package:seicheese/screens/register_screen.dart';
+import 'package:seicheese/screens/content_search_screen.dart';
+import 'package:seicheese/models/content.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,12 +39,14 @@ class MainScreenState extends State<MainScreen> {
   late GoogleMapController mapController;
   LatLng _currentPosition = const LatLng(0, 0);
   final Set<Marker> _markers = {}; // マーカーのセット
+  List<Seichi> _seichis = [];
+  Content? _selectedContent;
 
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
-    _loadMarkers(); // 初期マーカーを読み込み
+    _fetchSeichis(); // 聖地データを取得してマーカーを追加
   }
 
   // 現在位置を取得
@@ -59,50 +68,96 @@ class MainScreenState extends State<MainScreen> {
     }
   }
 
-  // 初期状態で複数のマーカーを配置
-  void _loadMarkers() {
-    final List<Map<String, dynamic>> locations = [
-      {
-        "id": "1",
-        "position": LatLng(35.6586, 139.7454),
-        "title": "東京タワー",
-        "snippet": "東京都港区芝公園4丁目2−8",
-      },
-      {
-        "id": "2",
-        "position": LatLng(34.9946, 135.7850),
-        "title": "清水寺",
-        "snippet": "京都府京都市東山区清水1丁目294",
-      },
-      {
-        "id": "3",
-        "position": LatLng(35.7100, 139.8107),
-        "title": "東京スカイツリー",
-        "snippet": "東京都墨田区押上1丁目1-2",
-      },
-    ];
+  // 聖地データを取得してマーカーを追加
+  Future<void> _fetchSeichis() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('データを取得するにはサインインが必要です')),
+      );
+      // サインイン画面に遷移
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => SignInScreen()),
+      );
+      return;
+    }
 
-    setState(() {
-      for (var location in locations) {
-        _markers.add(
-          Marker(
-            markerId: MarkerId(location["id"]),
-            position: location["position"],
-            infoWindow: InfoWindow(
-              title: location["title"],
-              snippet: location["snippet"],
-            ),
-          ),
-        );
-      }
-    });
+    final seichiService =
+        services.SeichiService(authToken: await user.getIdToken());
+    try {
+      final seichis = await seichiService.getSeichies();
+      setState(() {
+        _seichis = seichis;
+        _addMarkers(); // マーカーを追加
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('聖地データの取得に失敗しました: $e')),
+      );
+    }
+  }
+
+  // マーカーを追加
+  void _addMarkers() {
+    _markers.clear();
+    for (var seichi in _seichis) {
+      _markers.add(
+        Marker(
+          markerId: MarkerId(seichi.id.toString()),
+          position: LatLng(seichi.latitude, seichi.longitude),
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text(seichi.name),
+                  content: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('作品：${seichi.contentName ?? "未設定"}',
+                            style: const TextStyle(fontSize: 16)),
+                        const SizedBox(height: 8),
+                        Text('説明：${seichi.description ?? ""}',
+                            style: const TextStyle(fontSize: 16)),
+                        const SizedBox(height: 8),
+                        Text('郵便番号：${seichi.postalCode ?? "未設定"}',
+                            style: const TextStyle(fontSize: 16)),
+                        const SizedBox(height: 8),
+                        Text('住所：${seichi.address ?? "未設定"}',
+                            style: const TextStyle(fontSize: 16)),
+                      ],
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('閉じる'),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        ),
+      );
+    }
   }
 
   // Google Mapが作成されたときにコントローラーを設定
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
     if (_isLocationLoaded) {
-      mapController.moveCamera(
+      _moveToCurrentLocation();
+    }
+  }
+
+  // 現在地に移動する関数を追加
+  void _moveToCurrentLocation() {
+    if (_currentPosition != null && mapController != null) {
+      mapController.animateCamera(
         CameraUpdate.newLatLng(_currentPosition),
       );
     }
@@ -113,7 +168,68 @@ class MainScreenState extends State<MainScreen> {
     if (mounted) {
       setState(() {
         showPointer = !showPointer;
+        if (showPointer) {
+          _showContentSelectionDialog();
+        }
       });
+    }
+  }
+
+  // コンテンツ選択ダイアログを表示するメソッド
+  Future<void> _showContentSelectionDialog() async {
+    final Content? result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ContentSearchScreen()),
+    );
+
+    if (result != null) {
+      setState(() {
+        _selectedContent = result;
+      });
+    }
+  }
+
+  Future<void> _handleRegisterSeichi() async {
+    if (_selectedContent == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('先に作品を選択してください')),
+      );
+      return;
+    }
+
+    try {
+      final position = await mapController.getVisibleRegion();
+      final center = LatLng(
+        (position.northeast.latitude + position.southwest.latitude) / 2,
+        (position.northeast.longitude + position.southwest.longitude) / 2,
+      );
+
+      final bool? result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => RegisterScreen(
+            initialLocation: center,
+            selectedContent: _selectedContent!,
+          ),
+        ),
+      );
+
+      if (result == true) {
+        await Future.delayed(const Duration(milliseconds: 500));
+        await _fetchSeichis();
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('聖地を登録しました')),
+          );
+        }
+      }
+    } catch (e) {
+      print('聖地登録エラー: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('聖地の登録に失敗しました')),
+        );
+      }
     }
   }
 
@@ -161,7 +277,7 @@ class MainScreenState extends State<MainScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       ElevatedButton(
-                        onPressed: togglePointer,
+                        onPressed: () => _handleRegisterSeichi(),
                         child: const Text(
                           '登録',
                           style: TextStyle(fontSize: 20, color: Colors.white),
@@ -202,8 +318,8 @@ class MainScreenState extends State<MainScreen> {
               child: ElevatedButton(
                 onPressed: togglePointer,
                 child: const Text(
-                  '登録',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                  '登録地の作品選択',
+                  style: TextStyle(fontSize: 14, color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF0077E6),
@@ -216,62 +332,66 @@ class MainScreenState extends State<MainScreen> {
               ),
             ),
 
-            Positioned(
-              bottom: 110,
-              right: 3,
-              child: GestureDetector(
-                onTap: () {//押したら作動
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('ポイント情報'),
-                        content: const Text('現在の所有ポイントは150ptです。'),
-                        actions: [
-                          TextButton(
-                            child: const Text('OK'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                child: Container(
-                  width: 145,
-                  padding: const EdgeInsets.all(3),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black, width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 5,
-                        spreadRadius: 2,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: const Column(
-                    children: [
-                      Text(
-                        '所有ポイント',
-                        style: TextStyle(fontSize: 18, color: Colors.black),
-                      ),
-                      SizedBox(height: 3),
-                      Text(
-                        '150pt', // ここでポイント数を設定
-                        style: TextStyle(fontSize: 25, color: Colors.blue, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
+          Positioned(
+            bottom: 110,
+            right: 3,
+            child: GestureDetector(
+              onTap: () {
+                //押したら作動
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('ポイント情報'),
+                      content: const Text('現在の所有ポイントは150ptです。'),
+                      actions: [
+                        TextButton(
+                          child: const Text('OK'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Container(
+                width: 145,
+                padding: const EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.black, width: 1),
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 5,
+                      spreadRadius: 2,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: const Column(
+                  children: [
+                    Text(
+                      '所有ポイント',
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    ),
+                    SizedBox(height: 3),
+                    Text(
+                      '150pt', // ここでポイント数を設定
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ),
             ),
-            
+          ),
+
           // チェックインボタン
           Positioned(
             bottom: 0,

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'main_screen.dart'; // MainScreenをインポート
 import 'signin_screen.dart';
 import '../services/authentication_service.dart';
 
-class SignUpScreen extends StatefulWidget { // StatefulWidgetを継承
+class SignUpScreen extends StatefulWidget {
+  // StatefulWidgetを継承
   @override
-  _SignUpScreenState createState() => _SignUpScreenState(); // _SignUpScreenStateを返す
+  _SignUpScreenState createState() =>
+      _SignUpScreenState(); // _SignUpScreenStateを返す
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
@@ -17,36 +18,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (_isSigningUp) return;
 
     setState(() {
-        _isSigningUp = true;
+      _isSigningUp = true;
     });
 
     try {
-        await _authService.signUpWithGoogle();
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => MainScreen()),
-        );
+      await _authService.signUpWithGoogle();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      );
     } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(e.toString()),
-                action: e.toString().contains('既に登録されています') 
-                    ? SnackBarAction(
-                        label: 'サインイン画面へ',
-                        onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(builder: (context) => SignInScreen()),
-                            );
-                        },
-                    )
-                    : null,
-            ),
-        );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          action: e.toString().contains('既に登録されています')
+              ? SnackBarAction(
+                  label: 'サインイン画面へ',
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignInScreen()),
+                    );
+                  },
+                )
+              : null,
+        ),
+      );
     } finally {
-        setState(() {
-            _isSigningUp = false;
-        });
+      setState(() {
+        _isSigningUp = false;
+      });
     }
   }
 
@@ -98,10 +99,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           strokeWidth: 2,
                         ),
                       )
-                      : Image.asset(
-                  'assets/icons/google-icon.png', // Googleアイコン
-                  height: 24,
-                ),
+                    : Image.asset(
+                        'assets/icons/google-icon.png', // Googleアイコン
+                        height: 24,
+                      ),
                 label: Text(_isSigningUp ? '処理中...' : 'Sign Up with Google'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white, // ボタンの背景色
@@ -151,7 +152,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               const SizedBox(height: 30), // ボタン間のスペース
-              
             ],
           ),
         ),

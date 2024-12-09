@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/genre.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class GenreService {
   final String authToken;
-  final host = dotenv.env['LOCAL_IP_ADDR'];
-  final String baseUrl = 'http://$host:1300';
+  static final host = dotenv.env['LOCAL_IP_ADDR'];
+  static final String baseUrl = 'http://${GenreService.host}:1300';
 
   GenreService({required this.authToken});
 

@@ -20,13 +20,15 @@ class AuthenticationService {
         return null;
       }
 
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      final UserCredential userCredential = await _auth.signInWithCredential(credential);
+      final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
       final token = await userCredential.user?.getIdToken();
 
       final appVersion = await getAppVersion();
@@ -68,13 +70,15 @@ class AuthenticationService {
         return;
       }
 
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      final UserCredential userCredential = await _auth.signInWithCredential(credential);
+      final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
       final token = await userCredential.user?.getIdToken();
 
       final appVersion = await getAppVersion();
@@ -133,4 +137,16 @@ class AuthenticationService {
 
   // 認証状態の監視
   Stream<User?> get authStateChanges => _auth.authStateChanges();
+
+  Future<String> getToken() async {
+    User? user = _auth.currentUser;
+    if (user == null) {
+      throw Exception('ユーザーがログインしていません');
+    }
+    String? token = await user.getIdToken();
+    if (token == null) {
+      throw Exception('トークンの取得に失敗しました');
+    }
+    return token;
+  }
 }
